@@ -19,7 +19,7 @@
 2. **Method** sættes til `POST`
 3. I **Headers** fanen sættes **Header name** til `Content-Type` og **Header value** til `application/json`
 4. I **Body** fanen sættes **Body content type** til `application/json`, og **Editor view** kan sættes til `JSON editor`
-5. Hertil udfyldes felterne `firstName` sættes til `myFirstName`, `lastName` sættes til `myLastName`, `password` sættes til `myPassword`, `email` sættes til `myEmail` og `verifyPassword`til `myPassword`. 
+5. Hertil udfyldes felterne `firstName` sættes til `myFirstName`, `lastName` sættes til `myLastName`, `password` sættes til `myPassword123`, `email` sættes til `myEmail` og `verifyPassword`til `myPassword123`. 
 6. Når du nu trykker på **send** bliver en bruger forsøgt oprettet med disse oplysninger.
 
 ## Login Endpoint
