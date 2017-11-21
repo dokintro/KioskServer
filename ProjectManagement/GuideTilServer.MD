@@ -61,7 +61,7 @@
 - Metoden der gør det muligt at oprette nye events i databasen. 
 1. Ændre **Method** til **POST** 
 2. Ændre **Request URL** til `http://localhost:8080/api/events`
-3. Udfyld følgende felter `eventName`, `location`, `price` (OBS: dette skal være en int og ikke en string som resten), `description`, `date` (OBS: Dette er en string! Dette skal formateres korrekt i klienten).
+3. Udfyld følgende felter `eventName`, `location`, `price` (OBS: dette skal være en int og ikke en string som resten), `description`, `eventDate` (OBS: Dette er en string! Dette skal formateres korrekt i klienten).
 4. Sidst, tryk **Send**, og eventet burde oprettes.
 
 ### deleteEvent
