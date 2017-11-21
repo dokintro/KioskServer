@@ -24,10 +24,7 @@ public class TokenController {
     public boolean deleteToken(String token) throws SQLException {
         boolean deleteToken = studentTable.deleteToken(token);
         studentTable.close();
-        if (deleteToken) {
-            return true;
-        }
-        return false;
+        return deleteToken;
     }
 
     /**
@@ -44,9 +41,7 @@ public class TokenController {
             token = JWT.create().withClaim("User", student.getEmail()).withExpiresAt(expDate).withIssuer("STFU").sign(algorithm);
             studentTable.addToken(token, student.getIdStudent());
             studentTable.close();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (UnsupportedEncodingException | SQLException e) {
             e.printStackTrace();
         }
         if (token != null) {
