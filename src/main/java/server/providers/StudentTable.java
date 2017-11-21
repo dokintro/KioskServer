@@ -120,6 +120,8 @@ public class StudentTable extends DBmanager {
                 student.setEmail(resultSet.getString("email"));
                 student.setPassword(resultSet.getString("password"));
                 student.setCreatedTime(resultSet.getLong("createdTime"));
+                student.setFirstName(resultSet.getString("firstName"));
+                student.setLastName(resultSet.getString("lastName"));
             }
 
             if (student == null) {

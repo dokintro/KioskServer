@@ -9,7 +9,11 @@ import server.models.Student;
 import server.resources.Log;
 import server.utility.CurrentStudentContext;
 
-import javax.ws.rs.*;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -119,8 +123,7 @@ public class StudentEndpoint {
     @Path("/profile")
     public Response get(@HeaderParam("Authorization") String token) throws SQLException {
 
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
-        Student currentStudent = student.getCurrentStudent();
+        CurrentStudentContext currentStudent = tokenController.getStudentFromTokens(token);
         if (currentStudent != null) {
             String json = new Gson().toJson(currentStudent);
             String crypted = Crypter.encryptDecrypt(json);

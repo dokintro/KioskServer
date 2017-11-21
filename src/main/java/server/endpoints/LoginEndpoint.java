@@ -62,9 +62,10 @@ public class LoginEndpoint {
 
             if (doHash.equals(foundStudent.getPassword())) {
                 //sets the token for the student
-                tokenController.setToken(foundStudent);
+                String tokenForStudent;
+                tokenForStudent = tokenController.setToken(foundStudent);
 
-                String json = new Gson().toJson(foundStudent);
+                String json = new Gson().toJson(tokenForStudent);
                 String crypted = Crypter.encryptDecrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Logged in", 0);
