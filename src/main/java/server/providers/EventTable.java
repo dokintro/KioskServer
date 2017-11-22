@@ -44,6 +44,37 @@ public class EventTable extends DBmanager {
 
     /**
      *
+     * @return all Events
+     */
+    public ArrayList<Event> getMyEvents(Student currentStudent) {
+        ArrayList<Event> myEvents = new ArrayList<>();
+
+        try {
+            PreparedStatement getMyEventsStatement = getConnection().prepareStatement("SELECT * FROM dsevent WHERE isDeleted = 0 AND owner = ?");
+            getMyEventsStatement.setInt(1, currentStudent.getIdStudent());
+
+            resultSet = getMyEventsStatement.executeQuery();
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setIdEvent(resultSet.getInt("idEvent"));
+                event.setPrice(resultSet.getInt("price"));
+                event.setOwner(resultSet.getInt("owner"));
+                event.setEventName(resultSet.getString("eventName"));
+                event.setLocation(resultSet.getString("location"));
+                event.setDescription(resultSet.getString("description"));
+                event.setEventDate(resultSet.getString("eventDate"));
+                myEvents.add(event);
+            }
+            resultSet.close();
+            getMyEventsStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return myEvents;
+    }
+
+    /**
+     *
      * @param idEvent
      * @return Attending Students
      * @throws IllegalAccessException
