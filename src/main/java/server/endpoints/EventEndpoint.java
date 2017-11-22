@@ -220,7 +220,7 @@ public class EventEndpoint {
             try {
                 String json = gson.toJson(eventController.getMyEvents(currentStudent));
                 String crypted = Crypter.encryptDecrypt(json);
-                Log.writeLog(getClass().getName(), this, "All events fetched", 0);
+                Log.writeLog(getClass().getName(), this, "My events fetched", 0);
                 return Response
                         .status(200)
                         .type("application/json")
@@ -241,7 +241,7 @@ public class EventEndpoint {
             return Response
                     .status(403)
                     .type("plain/text")
-                    .entity("You are not logged in - please log in before attempting to get a list of all events")
+                    .entity("You are not logged in - please log in before attempting to get a list of your own events")
                     .build();
         }
     }
