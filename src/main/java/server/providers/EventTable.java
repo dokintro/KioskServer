@@ -149,6 +149,34 @@ public class EventTable extends DBmanager {
         return true;
     }
 
+    /**
+     *
+     * @param eventId
+     * @param studentId
+     * @return True
+     * @throws IllegalArgumentException
+     */
+    public boolean leaveEvent(int eventId, int studentId) throws IllegalArgumentException {
+
+        try {
+            //kalder metoden der tjekker om studenten allerede har tilmeldt sig det pågældende event
+            //Statement der sætter studentens id og eventets id sammen i en tabel
+            PreparedStatement leaveEvent = getConnection().prepareStatement
+                    ("DELETE FROM students_has_dsevent WHERE dsevent_idEvent = ? AND students_idStudent = ?");
+            leaveEvent.setInt(1, eventId);
+            leaveEvent.setInt(2, studentId);
+
+            int rowsAffected = leaveEvent.executeUpdate();
+            if (rowsAffected != 1) {
+                return false;
+            }
+            leaveEvent.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     // Anvendes til at ændre et event. Modtager et idEvent og data om eventet.
     public boolean updateEvent(Event event, Student student) throws Exception {
 

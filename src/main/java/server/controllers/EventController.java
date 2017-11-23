@@ -99,6 +99,19 @@ public class EventController {
 
     /**
      *
+     * @param eventId
+     * @param studentId
+     * @return Join Event
+     * @throws ResponseException
+     */
+    public boolean leaveEvent(int eventId, int studentId) throws ResponseException {
+        boolean leaveEvent = eventTable.leaveEvent(eventId, studentId);
+        eventTable.close();
+        return leaveEvent;
+    }
+
+    /**
+     *
      * @param event
      * @param student
      * @return Update Event
