@@ -63,6 +63,16 @@ public class EventController {
 
     /**
      *
+     * @return my Events
+     */
+    public ArrayList<Event> getMyEvents(Student student) {
+        ArrayList getMyEvents = eventTable.getMyEvents(student);
+        eventTable.close();
+        return getMyEvents;
+    }
+
+    /**
+     *
      * @param event
      * @param student
      * @return Delete event
@@ -85,6 +95,19 @@ public class EventController {
         boolean joinEvent = eventTable.joinEvent(eventId, studentId);
         eventTable.close();
         return joinEvent;
+    }
+
+    /**
+     *
+     * @param eventId
+     * @param studentId
+     * @return leave Event
+     * @throws ResponseException
+     */
+    public boolean leaveEvent(int eventId, int studentId) throws ResponseException {
+        boolean leaveEvent = eventTable.leaveEvent(eventId, studentId);
+        eventTable.close();
+        return leaveEvent;
     }
 
     /**

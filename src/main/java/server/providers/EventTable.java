@@ -14,7 +14,6 @@ public class EventTable extends DBmanager {
     private ResultSet resultSet;
 
     /**
-     *
      * @return all Events
      */
     public ArrayList<Event> getAllEvents() {
@@ -43,7 +42,36 @@ public class EventTable extends DBmanager {
     }
 
     /**
-     *
+     * @return my Events
+     */
+    public ArrayList<Event> getMyEvents(Student currentStudent) {
+        ArrayList<Event> myEvents = new ArrayList<>();
+
+        try {
+            PreparedStatement getMyEventsStatement = getConnection().prepareStatement("SELECT * FROM dsevent WHERE isDeleted = 0 AND owner = ?");
+            getMyEventsStatement.setInt(1, currentStudent.getIdStudent());
+
+            resultSet = getMyEventsStatement.executeQuery();
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setIdEvent(resultSet.getInt("idEvent"));
+                event.setPrice(resultSet.getInt("price"));
+                event.setOwner(resultSet.getInt("owner"));
+                event.setEventName(resultSet.getString("eventName"));
+                event.setLocation(resultSet.getString("location"));
+                event.setDescription(resultSet.getString("description"));
+                event.setEventDate(resultSet.getString("eventDate"));
+                myEvents.add(event);
+            }
+            resultSet.close();
+            getMyEventsStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return myEvents;
+    }
+
+    /**
      * @param idEvent
      * @return Attending Students
      * @throws IllegalAccessException
@@ -91,7 +119,6 @@ public class EventTable extends DBmanager {
     }
 
     /**
-     *
      * @param eventId
      * @param studentId
      * @return True
@@ -112,6 +139,33 @@ public class EventTable extends DBmanager {
                 return false;
             }
             joinEvent.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * @param eventId
+     * @param studentId
+     * @return True
+     * @throws IllegalArgumentException
+     */
+    public boolean leaveEvent(int eventId, int studentId) throws IllegalArgumentException {
+
+        try {
+            //kalder metoden der tjekker om studenten allerede har tilmeldt sig det pågældende event
+            //Statement der sætter studentens id og eventets id sammen i en tabel
+            PreparedStatement leaveEvent = getConnection().prepareStatement
+                    ("DELETE FROM students_has_dsevent WHERE dsevent_idEvent = ? AND students_idStudent = ?");
+            leaveEvent.setInt(1, eventId);
+            leaveEvent.setInt(2, studentId);
+
+            int rowsAffected = leaveEvent.executeUpdate();
+            if (rowsAffected != 1) {
+                return false;
+            }
+            leaveEvent.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,7 +208,6 @@ public class EventTable extends DBmanager {
     }
 
     /**
-     *
      * @param event
      * @param student
      * @return True
