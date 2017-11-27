@@ -351,7 +351,7 @@ public class EventEndpoint {
      * @throws SQLException
      */
     @DELETE
-    @Path("{idEvent}/leave")
+    @Path("/{idEvent}/leave")
     public Response leaveEvent(@HeaderParam("Authorization") String token, String idEvent) throws SQLException {
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
