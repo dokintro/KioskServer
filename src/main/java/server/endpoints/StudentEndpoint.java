@@ -37,7 +37,9 @@ public class StudentEndpoint {
     @GET
     @Path("{idStudent}/events")
     public Response getAttendingEvents(@HeaderParam("Authorization") String token, @PathParam("idStudent") int idStudent) throws SQLException, IllegalAccessException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
@@ -86,11 +88,13 @@ public class StudentEndpoint {
      */
     @POST
     @Path("/logout")
-    public Response logout(@HeaderParam("Authorization") String token) throws SQLException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+    public Response logout(@HeaderParam("authorization") String token) throws SQLException {
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
-            if (tokenController.deleteToken(token)) {
+            if (tokenController.deleteToken(replace)) {
                 Log.writeLog(getClass().getName(), this, "User logged out", 0);
                 return Response
                         .status(200)
@@ -122,8 +126,9 @@ public class StudentEndpoint {
     @GET
     @Path("/profile")
     public Response get(@HeaderParam("Authorization") String token) throws SQLException {
-
-        CurrentStudentContext currentStudent = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext currentStudent = tokenController.getStudentFromTokens(replace);
         if (currentStudent != null) {
             String json = new Gson().toJson(currentStudent);
             String crypted = Crypter.encryptDecrypt(json);

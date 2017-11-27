@@ -31,8 +31,9 @@ public class LoginEndpoint {
      */
     @POST
     public Response login(@HeaderParam("Authorization") String token, String jsonLogin) throws Exception {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
 
@@ -65,9 +66,11 @@ public class LoginEndpoint {
                 String tokenForStudent = tokenController.setToken(foundStudent);
 
                 String json = new Gson().toJson(tokenForStudent);
+
                 String crypted = Crypter.encryptDecrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Logged in", 0);
+                Log.writeLog(tokenForStudent, this, tokenForStudent, 0);
                 return Response
                         .status(200)
                         .type("application/json")

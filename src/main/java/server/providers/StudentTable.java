@@ -149,11 +149,7 @@ public class StudentTable extends DBmanager {
             deleteTokenStatement.setString(1, idStudent);
             int rowsAffected = deleteTokenStatement.executeUpdate();
             deleteTokenStatement.close();
-            if (rowsAffected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return rowsAffected == 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -180,11 +176,7 @@ public class StudentTable extends DBmanager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (rowsAffected == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return rowsAffected == 1;
     }
 
     /**

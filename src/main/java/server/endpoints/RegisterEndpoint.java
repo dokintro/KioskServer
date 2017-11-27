@@ -36,8 +36,9 @@ public class RegisterEndpoint {
     @POST
     @Produces("Application/json")
     public Response register(@HeaderParam("Authorization") String token, String jsonStudent) throws Exception {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             return Response

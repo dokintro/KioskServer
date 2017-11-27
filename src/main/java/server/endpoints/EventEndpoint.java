@@ -36,8 +36,9 @@ public class EventEndpoint {
     @PUT
     @Path("{idEvent}/update-event")
     public Response updateEvent(@HeaderParam("Authorization") String token, @PathParam("idEvent") int eventId, String data) throws Exception {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
 
@@ -83,14 +84,14 @@ public class EventEndpoint {
      */
     @POST
     public Response createEvent(@HeaderParam("Authorization") String token, String eventData) throws SQLException {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
             Event event = new Gson().fromJson(eventData, Event.class);
             if (eventController.createEvent(event, currentStudent)) {
-
 
                 Log.writeLog(getClass().getName(), this, "Event created", 0);
 
@@ -130,8 +131,9 @@ public class EventEndpoint {
     @PUT
     @Path("{idEvent}/delete-event")
     public Response deleteEvent(@HeaderParam("Authorization") String token, @PathParam("idEvent") String eventId, String data) throws Exception {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             Event event = gson.fromJson(data, Event.class);
@@ -172,7 +174,9 @@ public class EventEndpoint {
      */
     @GET
     public Response getEvents(@HeaderParam("Authorization") String token) throws SQLException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
@@ -213,7 +217,9 @@ public class EventEndpoint {
     @GET
     @Path("/myEvents")
     public Response getMyEvents(@HeaderParam("Authorization") String token) throws SQLException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
@@ -257,8 +263,9 @@ public class EventEndpoint {
     @GET
     @Path("{idEvent}/students")
     public Response getAttendingStudents(@HeaderParam("Authorization") String token, @PathParam("idEvent") String idEvent) throws SQLException, IllegalAccessException {
-
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             ArrayList<Student> foundAttendingStudents;
@@ -311,7 +318,9 @@ public class EventEndpoint {
     @POST
     @Path("/join")
     public Response joinEvent(@HeaderParam("Authorization") String token, String eventJson) throws SQLException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             Event event = gson.fromJson(eventJson, Event.class);
@@ -359,7 +368,9 @@ public class EventEndpoint {
     @DELETE
     @Path("{idEvent}/leave")
     public Response leaveEvent(@HeaderParam("Authorization") String token, String idEvent) throws SQLException {
-        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
+        final String replace = token.replace("\"", "");
+        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             Event event = gson.fromJson(idEvent, Event.class);
