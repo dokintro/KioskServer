@@ -70,7 +70,6 @@ public class LoginEndpoint {
                 String crypted = Crypter.encryptDecrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Logged in", 0);
-                Log.writeLog(tokenForStudent, this, tokenForStudent, 0);
                 return Response
                         .status(200)
                         .type("application/json")
