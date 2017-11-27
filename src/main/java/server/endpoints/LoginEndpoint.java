@@ -31,9 +31,8 @@ public class LoginEndpoint {
      */
     @POST
     public Response login(@HeaderParam("Authorization") String token, String jsonLogin) throws Exception {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
 
@@ -63,17 +62,16 @@ public class LoginEndpoint {
 
             if (doHash.equals(foundStudent.getPassword())) {
                 //sets the token for the student
-                String tokenForStudent = tokenController.setToken(foundStudent);
+                String _token = tokenController.setToken(foundStudent);
 
-                String json = new Gson().toJson(tokenForStudent);
-
+                String json = new Gson().toJson(foundStudent);
                 String crypted = Crypter.encryptDecrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Logged in", 0);
                 return Response
                         .status(200)
                         .type("application/json")
-                        .entity(new Gson().toJson(crypted))
+                        .entity(new Gson().toJson(_token))
                         .build();
             } else {
                 Log.writeLog(getClass().getName(), this, "Password incorect", 2);

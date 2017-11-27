@@ -36,9 +36,8 @@ public class EventEndpoint {
     @PUT
     @Path("{idEvent}/update-event")
     public Response updateEvent(@HeaderParam("Authorization") String token, @PathParam("idEvent") int eventId, String data) throws Exception {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
 
@@ -84,14 +83,14 @@ public class EventEndpoint {
      */
     @POST
     public Response createEvent(@HeaderParam("Authorization") String token, String eventData) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
             Event event = new Gson().fromJson(eventData, Event.class);
             if (eventController.createEvent(event, currentStudent)) {
+
 
                 Log.writeLog(getClass().getName(), this, "Event created", 0);
 
@@ -131,9 +130,8 @@ public class EventEndpoint {
     @PUT
     @Path("{idEvent}/delete-event")
     public Response deleteEvent(@HeaderParam("Authorization") String token, @PathParam("idEvent") String eventId, String data) throws Exception {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             Event event = gson.fromJson(data, Event.class);
@@ -174,9 +172,7 @@ public class EventEndpoint {
      */
     @GET
     public Response getEvents(@HeaderParam("Authorization") String token) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
@@ -208,49 +204,6 @@ public class EventEndpoint {
                     .build();
         }
     }
-    /**
-     *
-     * @param token
-     * @return Responses
-     * @throws SQLException
-     */
-    @GET
-    @Path("/myEvents")
-    public Response getMyEvents(@HeaderParam("Authorization") String token) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
-        Student currentStudent = student.getCurrentStudent();
-
-        if (currentStudent != null) {
-            try {
-                String json = gson.toJson(eventController.getMyEvents(currentStudent));
-                String crypted = Crypter.encryptDecrypt(json);
-                Log.writeLog(getClass().getName(), this, "My events fetched", 0);
-                return Response
-                        .status(200)
-                        .type("application/json")
-                        .entity(new Gson().toJson(crypted))
-                        .build();
-            } catch (Exception e) {
-                ErrorMessage message = new ErrorMessage();
-                message.setStatus(500);
-                message.setError(e.getMessage());
-                Log.writeLog(getClass().getName(), this, "Internal sever error", 2);
-                return Response
-                        .status(500)
-                        .type("application/json")
-                        .entity(new Gson().toJson(message))
-                        .build();
-            }
-        } else {
-            return Response
-                    .status(403)
-                    .type("plain/text")
-                    .entity("You are not logged in - please log in before attempting to get a list of your own events")
-                    .build();
-        }
-    }
 
     /**
      *
@@ -263,9 +216,8 @@ public class EventEndpoint {
     @GET
     @Path("{idEvent}/students")
     public Response getAttendingStudents(@HeaderParam("Authorization") String token, @PathParam("idEvent") String idEvent) throws SQLException, IllegalAccessException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             ArrayList<Student> foundAttendingStudents;
@@ -318,9 +270,7 @@ public class EventEndpoint {
     @POST
     @Path("/join")
     public Response joinEvent(@HeaderParam("Authorization") String token, String eventJson) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             Event event = gson.fromJson(eventJson, Event.class);
@@ -353,57 +303,7 @@ public class EventEndpoint {
             return Response
                     .status(403)
                     .type("plain/text")
-                    .entity("You are not logged in - please log in before attempting to join an event")
-                    .build();
-        }
-    }
-
-    /**
-     *
-     * @param token
-     * @param idEvent
-     * @return Responses
-     * @throws SQLException
-     */
-    @DELETE
-    @Path("{idEvent}/leave")
-    public Response leaveEvent(@HeaderParam("Authorization") String token, String idEvent) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
-        Student currentStudent = student.getCurrentStudent();
-        if (currentStudent != null) {
-            Event event = gson.fromJson(idEvent, Event.class);
-
-            try {
-                eventController.leaveEvent(event.getIdEvent(), currentStudent.getIdStudent());
-
-                String json = new Gson().toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
-
-                Log.writeLog(getClass().getName(), this, "Event left", 0);
-                return Response
-                        .status(200)
-                        .type("application/json")
-                        .entity(new Gson().toJson(crypted))
-                        .build();
-
-            } catch (ResponseException e) {
-                ErrorMessage message = new ErrorMessage();
-                message.setError(e.getMessage());
-                message.setStatus(e.getStatus());
-                Log.writeLog(getClass().getName(), this, "Not able to leave event", 2);
-                return Response
-                        .status(e.getStatus())
-                        .type("application/json")
-                        .entity(new Gson().toJson(message))
-                        .build();
-            }
-        } else {
-            return Response
-                    .status(403)
-                    .type("plain/text")
-                    .entity("You are not logged in - please log in before attempting to leave an event")
+                    .entity("You are not logged in - please log in before attempting to get a list of students attending this event")
                     .build();
         }
     }

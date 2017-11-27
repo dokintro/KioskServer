@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import server.providers.StudentTable;
 import server.models.Student;
-
+import server.models.Token;
+import server.providers.DBmanager;
+import server.utility.Crypter;
 import server.utility.CurrentStudentContext;
-import java.io.UnsupportedEncodingException;
+;import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -14,9 +16,21 @@ public class TokenController {
 
     private StudentTable studentTable = new StudentTable();
 
-    // Metode til at slette en token ( ved log ud)
+
+/*
+    // Metode til at modtage en token og sende et student objekt retur
+
+    public Student getStudentFromTokens(String token) throws SQLException {
+        Student student = st.getStudentFromToken(token);
+        st.close();
+        return student;
+    }
+*/
+
+    // Metode til at slette en token (eventuelt ved log ud)
 
     /**
+     *
      * @param token
      * @return False
      * @throws SQLException
@@ -24,10 +38,14 @@ public class TokenController {
     public boolean deleteToken(String token) throws SQLException {
         boolean deleteToken = studentTable.deleteToken(token);
         studentTable.close();
-        return deleteToken;
+        if (deleteToken) {
+            return true;
+        }
+        return false;
     }
 
     /**
+     *
      * @param student
      * @return Either token or null
      */
@@ -41,7 +59,9 @@ public class TokenController {
             token = JWT.create().withClaim("User", student.getEmail()).withExpiresAt(expDate).withIssuer("STFU").sign(algorithm);
             studentTable.addToken(token, student.getIdStudent());
             studentTable.close();
-        } catch (UnsupportedEncodingException | SQLException e) {
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         if (token != null) {
@@ -52,6 +72,7 @@ public class TokenController {
     }
 
     /**
+     *
      * @param token
      * @return Context
      * @throws SQLException

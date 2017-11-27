@@ -19,7 +19,7 @@
 2. **Method** sættes til `POST`
 3. I **Headers** fanen sættes **Header name** til `Content-Type` og **Header value** til `application/json`
 4. I **Body** fanen sættes **Body content type** til `application/json`, og **Editor view** kan sættes til `JSON editor`
-5. Hertil udfyldes felterne `firstName` sættes til `myFirstName`, `lastName` sættes til `myLastName`, `password` sættes til `myPassword123`, `email` sættes til `myEmail` og `verifyPassword`til `myPassword123`. 
+5. Hertil udfyldes felterne `firstName` sættes til `myFirstName`, `lastName` sættes til `myLastName`, `password` sættes til `myPassword`, `email` sættes til `myEmail` og `verifyPassword`til `myPassword`. 
 6. Når du nu trykker på **send** bliver en bruger forsøgt oprettet med disse oplysninger.
 
 ## Login Endpoint
@@ -61,7 +61,7 @@
 - Metoden der gør det muligt at oprette nye events i databasen. 
 1. Ændre **Method** til **POST** 
 2. Ændre **Request URL** til `http://localhost:8080/api/events`
-3. Udfyld følgende felter `eventName`, `location`, `price` (OBS: dette skal være en int og ikke en string som resten), `description`, `eventDate` (OBS: Dette er en string! Dette skal formateres korrekt i klienten).
+3. Udfyld følgende felter `eventName`, `location`, `price` (OBS: dette skal være en int og ikke en string som resten), `description`, `date` (OBS: Dette er en string! Dette skal formateres korrekt i klienten).
 4. Sidst, tryk **Send**, og eventet burde oprettes.
 
 ### deleteEvent
@@ -83,12 +83,6 @@
 2. Ændre **Request URL** til `http://localhost:8080/api/events`
 3. Når der trykkes på **Send** bør du få en liste printet med alle de events der eksisterer i databasen, og som ikke er blevet slettede. 
 
-### getMyEvents
-- Man skal kunne se en liste med alle events man selv har oprettede
-1. Ændre **Method** til **GET** 
-2. Ændre **Request URL** til `http://localhost:8080/api/events/myEvents`
-3. Når der trykkes på **Send** bør du få en liste printet med alle de events der eksisterer i databasen, og som er blevet oprettet af en selv, og som ikke er blevet slettede.
-
 ### joinEvent
 - Man skal som bruger kunne tilmelde sig et event og dette gøres således: 
 1. Ændre **Method** til **POST**
@@ -100,10 +94,4 @@
 - Man skal kunne se hvem der er tilmeldt de forskellige events.
 1. Ændre **Method** til **GET**
 2. Ændre **Request URL** til `http://localhost:8080/api/events/{idEvent}/students`
-3. Når der trykkes på **Send** får du en liste printet med de students som er tilmeldt dette event. 
-
-### leaveEvent
-- Man skal kunne se hvem der er tilmeldt de forskellige events.
-1. Ændre **Method** til **DELETE**
-2. Ændre **Request URL** til `http://localhost:8080/api/events/{idEvent}/leave`
 3. Når der trykkes på **Send** får du en liste printet med de students som er tilmeldt dette event. 

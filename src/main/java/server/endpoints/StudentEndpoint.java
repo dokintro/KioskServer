@@ -9,11 +9,7 @@ import server.models.Student;
 import server.resources.Log;
 import server.utility.CurrentStudentContext;
 
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,9 +33,7 @@ public class StudentEndpoint {
     @GET
     @Path("{idStudent}/events")
     public Response getAttendingEvents(@HeaderParam("Authorization") String token, @PathParam("idStudent") int idStudent) throws SQLException, IllegalAccessException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
         if (currentStudent != null) {
@@ -88,13 +82,11 @@ public class StudentEndpoint {
      */
     @POST
     @Path("/logout")
-    public Response logout(@HeaderParam("authorization") String token) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext student = tokenController.getStudentFromTokens(replace);
+    public Response logout(@HeaderParam("Authorization") String token) throws SQLException {
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
-            if (tokenController.deleteToken(replace)) {
+            if (tokenController.deleteToken(token)) {
                 Log.writeLog(getClass().getName(), this, "User logged out", 0);
                 return Response
                         .status(200)
@@ -126,9 +118,9 @@ public class StudentEndpoint {
     @GET
     @Path("/profile")
     public Response get(@HeaderParam("Authorization") String token) throws SQLException {
-        //Fixes a bug where if the token gets sent with an extra set of "" around it, these are removed.
-        final String replace = token.replace("\"", "");
-        CurrentStudentContext currentStudent = tokenController.getStudentFromTokens(replace);
+
+        CurrentStudentContext student = tokenController.getStudentFromTokens(token);
+        Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
             String json = new Gson().toJson(currentStudent);
             String crypted = Crypter.encryptDecrypt(json);
