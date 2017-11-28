@@ -21,6 +21,7 @@ public class StudentEndpoint {
 
     private StudentController studentController = new StudentController();
     private TokenController tokenController = new TokenController();
+    private Gson gson = new Gson();
 
     /**
      *
@@ -44,7 +45,7 @@ public class StudentEndpoint {
                         .entity("You're not allowed to view this persons events. You can only view your own events.")
                         .build();
             } else {
-                ArrayList<Event> foundAttendingEvents;
+                ArrayList foundAttendingEvents;
                 foundAttendingEvents = studentController.getAttendingEvents(idStudent);
                 // if event not found
                 if (foundAttendingEvents.isEmpty()) {
@@ -55,13 +56,12 @@ public class StudentEndpoint {
                             .entity("You are not attending any events")
                             .build();
                 } else {
-                    String json = new Gson().toJson(foundAttendingEvents);
-                    String crypted = Crypter.encrypt(json);
+                    String json = gson.toJson(foundAttendingEvents);
                     Log.writeLog(getClass().getName(), this, "Attending events fetched", 0);
                     return Response
                             .status(200)
                             .type("application/json")
-                            .entity(new Gson().toJson(crypted))
+                            .entity(Crypter.encrypt(json))
                             .build();
                 }
             }
@@ -122,13 +122,12 @@ public class StudentEndpoint {
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
         if (currentStudent != null) {
-            String json = new Gson().toJson(currentStudent);
-            String crypted = Crypter.encrypt(json);
+            String json = gson.toJson(currentStudent);
             Log.writeLog(getClass().getName(), this, "Current student found: " + currentStudent, 0);
             return Response
                     .status(200)
                     .type("application/json")
-                    .entity(new Gson().toJson(crypted))
+                    .entity(Crypter.encrypt(json))
                     .build();
         } else {
             Log.writeLog(getClass().getName(), this, "Current student not found - 403", 2);
