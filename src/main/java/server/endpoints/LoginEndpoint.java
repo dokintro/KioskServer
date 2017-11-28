@@ -65,7 +65,7 @@ public class LoginEndpoint {
                 String _token = tokenController.setToken(foundStudent);
 
                 String json = new Gson().toJson(foundStudent);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Logged in", 0);
                 return Response

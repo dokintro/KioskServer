@@ -75,7 +75,7 @@ public class RegisterEndpoint {
                 studentTable.addStudent(registerStudent);
 
                 String json = new Gson().toJson(registerStudent);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, registerStudent + " registered", 0);
                 return Response

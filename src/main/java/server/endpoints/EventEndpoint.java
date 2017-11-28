@@ -46,7 +46,7 @@ public class EventEndpoint {
 
             if (eventController.updateEvent(event, currentStudent)) {
                 String json = gson.toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Event was updated", 0);
 
@@ -93,7 +93,7 @@ public class EventEndpoint {
                 Log.writeLog(getClass().getName(), this, "Event created", 0);
 
                 String json = new Gson().toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 return Response
                         .status(200)
@@ -136,7 +136,7 @@ public class EventEndpoint {
             if (eventController.deleteEvent(event, currentStudent)) {
 
                 String json = new Gson().toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Event deleted", 0);
                 return Response
@@ -174,7 +174,7 @@ public class EventEndpoint {
         if (currentStudent != null) {
             try {
                 String json = gson.toJson(eventController.getAllEvents());
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
                 Log.writeLog(getClass().getName(), this, "All events fetched", 0);
                 return Response
                         .status(200)
@@ -215,7 +215,7 @@ public class EventEndpoint {
         if (currentStudent != null) {
             try {
                 String json = gson.toJson(eventController.getMyEvents(currentStudent));
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
                 Log.writeLog(getClass().getName(), this, "My events fetched", 0);
                 return Response
                         .status(200)
@@ -278,7 +278,7 @@ public class EventEndpoint {
                             .build();
                 } else {
                     String json = new Gson().toJson(foundAttendingStudents);
-                    String crypted = Crypter.encryptDecrypt(json);
+                    String crypted = Crypter.encrypt(json);
                     Log.writeLog(getClass().getName(), this, "Attending students fetched", 0);
                     return Response
                             .status(200)
@@ -315,7 +315,7 @@ public class EventEndpoint {
                 eventController.joinEvent(event.getIdEvent(), currentStudent.getIdStudent());
 
                 String json = new Gson().toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Event joined", 0);
                 return Response
@@ -362,7 +362,7 @@ public class EventEndpoint {
                 eventController.leaveEvent(event.getIdEvent(), currentStudent.getIdStudent());
 
                 String json = new Gson().toJson(event);
-                String crypted = Crypter.encryptDecrypt(json);
+                String crypted = Crypter.encrypt(json);
 
                 Log.writeLog(getClass().getName(), this, "Event left", 0);
                 return Response
