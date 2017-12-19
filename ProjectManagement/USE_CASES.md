@@ -5,7 +5,7 @@
 |             | Use case:     | Bruger | Gæst | 
 |-------------|---------------|--------|------|
 | Use case 1: | Opret bruger: |        |   x  |
-| Use case 2: | Login: |   x    |     |
+| Use case 2: | Login: |       |  x   |
 | Use case 3: | Oprette events: |   x    |     |
 | Use case 4: | Opdatere egne events: |   x    |     |
 | Use case 5: | Se liste med events: |   x    |     |
