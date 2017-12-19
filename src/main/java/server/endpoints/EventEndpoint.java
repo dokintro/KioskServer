@@ -169,7 +169,6 @@ public class EventEndpoint {
     /**
      * @param token
      * @return Responses
-     * @throws SQLException
      */
     @GET
     public Response getEvents(@HeaderParam("Authorization") String token) {
