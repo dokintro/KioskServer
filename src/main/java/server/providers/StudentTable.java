@@ -12,13 +12,11 @@ public class StudentTable extends DBmanager {
     private Student student;
 
     /**
-     *
      * @param idStudent
      * @return Attending Events
-     * @throws IllegalAccessException
      */
-    public ArrayList getAttendingEvents(int idStudent) throws IllegalAccessException {
-        ArrayList attendingEvents = new ArrayList();
+    public ArrayList<Event> getAttendingEvents(int idStudent) {
+        ArrayList<Event> attendingEvents = new ArrayList<>();
         //henter alle events en studerende deltager på.
         try {
             PreparedStatement getAttendingEvents = getConnection().prepareStatement
@@ -60,12 +58,11 @@ public class StudentTable extends DBmanager {
     }
 
     /**
-     *
      * @param student
      * @return True
      * @throws SQLException
      */
-    public boolean addStudent(Student student) throws SQLException {
+    public void addStudent(Student student) throws SQLException {
         // Denne metode er taget fra henrik (Slack)
         long unixTime = System.currentTimeMillis() / 1000L;
         //generer salt password
@@ -98,11 +95,9 @@ public class StudentTable extends DBmanager {
             throw new SQLException("SQL Error");
         }
         addStudentStatement.close();
-        return true;
     }
 
     /**
-     *
      * @param email
      * @return Student by Email
      */
@@ -134,9 +129,9 @@ public class StudentTable extends DBmanager {
     }
 
     // Sletter en token i databasen til et bestemt idStudent
+
     /**
-     *
-     * @param idStudent
+     * @param idStudent the id of the student
      * @return False
      * @throws SQLException
      */
@@ -147,11 +142,7 @@ public class StudentTable extends DBmanager {
             deleteTokenStatement.setString(1, idStudent);
             int rowsAffected = deleteTokenStatement.executeUpdate();
             deleteTokenStatement.close();
-            if (rowsAffected == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return rowsAffected == 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -159,39 +150,31 @@ public class StudentTable extends DBmanager {
     }
 
     // Indsætter en token i DB til et bestemt idStudent
+
     /**
-     *
      * @param token
      * @param idStudent
      * @return True or False
-     * @throws SQLException
      */
-    public boolean addToken(String token, int idStudent) throws SQLException {
+    public void addToken(String token, int idStudent) {
         PreparedStatement addTokenStatement;
-        int rowsAffected = 0;
         try {
             addTokenStatement = getConnection().prepareStatement("INSERT INTO tokens (token, students_idStudent) VALUES (? , ?)");
             addTokenStatement.setString(1, token);
             addTokenStatement.setInt(2, idStudent);
-            rowsAffected = addTokenStatement.executeUpdate();
+            addTokenStatement.executeUpdate();
             addTokenStatement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        if (rowsAffected == 1) {
-            return true;
-        } else {
-            return false;
         }
     }
 
     /**
-     *
      * @param token
      * @return Student
-     * @throws SQLException
      */
-    public Student getStudentFromToken(String token) throws SQLException {
+    public Student getStudentFromToken(String token) {
         try {
             PreparedStatement getStudentFromToken = getConnection().prepareStatement("SELECT idStudent, firstName, lastName, email, createdTime FROM students s INNER JOIN tokens t ON t.students_idStudent = s.idStudent WHERE t.token = ?");
             getStudentFromToken.setString(1, token);

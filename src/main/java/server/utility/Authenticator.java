@@ -9,6 +9,7 @@ public class Authenticator {
 
     public Authenticator() {
     }
+
     static {
         try {
             authenticator = MessageDigest.getInstance("MD5");
@@ -18,7 +19,6 @@ public class Authenticator {
     }
 
     /**
-     *
      * @param password
      * @param salt
      * @return Password + Salt
@@ -30,8 +30,8 @@ public class Authenticator {
     }
 
     //Taget fra jespers project secure-dis. Link: https://github.com/Distribuerede-Systemer-2017/secure-dis
+
     /**
-     *
      * @param str
      * @return
      */
@@ -41,7 +41,7 @@ public class Authenticator {
         StringBuilder hexString = new StringBuilder();
         for (byte aHash : hash) {
             if ((0xff & aHash) < 0x10) {
-                hexString.append("0" + Integer.toHexString((0xFF & aHash)));
+                hexString.append("0").append(Integer.toHexString((0xFF & aHash)));
             } else {
                 hexString.append(Integer.toHexString(0xFF & aHash));
             }

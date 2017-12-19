@@ -6,7 +6,6 @@ public class ErrorMessage {
     private int status;
 
     /**
-     *
      * @return Status
      */
     public int getStatus() {
@@ -14,7 +13,6 @@ public class ErrorMessage {
     }
 
     /**
-     *
      * @param status
      */
     public void setStatus(int status) {
@@ -22,7 +20,6 @@ public class ErrorMessage {
     }
 
     /**
-     *
      * @return Error
      */
     public String getError() {
@@ -30,7 +27,6 @@ public class ErrorMessage {
     }
 
     /**
-     *
      * @param error
      */
     public void setError(String error) {

@@ -10,8 +10,8 @@ import java.sql.SQLException;
 public class DBmanager {
 
     //Har ikke public/private da den så er package-private
+
     /**
-     *
      * @return Connection
      */
     Connection getConnection() {
@@ -21,11 +21,7 @@ public class DBmanager {
         try {
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             connection = DriverManager.getConnection(
@@ -43,7 +39,7 @@ public class DBmanager {
     }
 
     // Lukker forbindelsen til databasen
-    public  void close(){
+    public void close() {
         try {
             this.getConnection().close();
         } catch (SQLException e) {

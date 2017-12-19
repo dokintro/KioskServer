@@ -172,7 +172,7 @@ public class EventEndpoint {
      * @throws SQLException
      */
     @GET
-    public Response getEvents(@HeaderParam("Authorization") String token) throws SQLException {
+    public Response getEvents(@HeaderParam("Authorization") String token) {
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
@@ -196,11 +196,10 @@ public class EventEndpoint {
     /**
      * @param token
      * @return Responses
-     * @throws SQLException
      */
     @GET
     @Path("/myEvents")
-    public Response getMyEvents(@HeaderParam("Authorization") String token) throws SQLException {
+    public Response getMyEvents(@HeaderParam("Authorization") String token) {
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
@@ -279,11 +278,10 @@ public class EventEndpoint {
      * @param token
      * @param eventJson
      * @return Responses
-     * @throws SQLException
      */
     @POST
     @Path("/join")
-    public Response joinEvent(@HeaderParam("Authorization") String token, String eventJson) throws SQLException, ResponseException {
+    public Response joinEvent(@HeaderParam("Authorization") String token, String eventJson) throws ResponseException {
 
         eventJson = gson.fromJson(eventJson, String.class);
         eventJson = crypter.decrypt(eventJson);
@@ -317,11 +315,10 @@ public class EventEndpoint {
      * @param token
      * @param idEvent
      * @return Responses
-     * @throws SQLException
      */
     @DELETE
     @Path("/{idEvent}/leave")
-    public Response leaveEvent(@HeaderParam("Authorization") String token, String idEvent) throws SQLException, ResponseException {
+    public Response leaveEvent(@HeaderParam("Authorization") String token, String idEvent) throws ResponseException {
 
         idEvent = gson.fromJson(idEvent, String.class);
         idEvent = crypter.decrypt(idEvent);

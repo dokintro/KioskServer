@@ -9,13 +9,12 @@ public class Student {
     private int idStudent;
     private String salt;
     private long createdTime;
-    private Token token;
     private String verifyPassword;
 
 
     //has all student info.
+
     /**
-     *
      * @param idStudent
      * @param firstName
      * @param lastName
@@ -33,8 +32,8 @@ public class Student {
     }
 
     //used in verifyStudentCreation
+
     /**
-     *
      * @param firstName
      * @param lastName
      * @param password
@@ -52,7 +51,6 @@ public class Student {
     //used in studentEndpoint
 
     /**
-     *
      * @param email
      * @param salt
      * @param password
@@ -64,7 +62,6 @@ public class Student {
     }
 
     /**
-     *
      * @param email
      * @param password
      */
@@ -83,14 +80,6 @@ public class Student {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
     }
 
     public int getIdStudent() {
@@ -146,7 +135,4 @@ public class Student {
         return verifyPassword;
     }
 
-    public void setVerifyPassword(String verifyPassword) {
-        this.verifyPassword = verifyPassword;
-    }
 }

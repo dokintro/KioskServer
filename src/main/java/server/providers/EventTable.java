@@ -22,17 +22,7 @@ public class EventTable extends DBmanager {
         try {
             PreparedStatement getAllEventsStatement = getConnection().prepareStatement("SELECT * FROM dsevent WHERE isDeleted = 0");
             resultSet = getAllEventsStatement.executeQuery();
-            while (resultSet.next()) {
-                Event event = new Event();
-                event.setIdEvent(resultSet.getInt("idEvent"));
-                event.setPrice(resultSet.getInt("price"));
-                event.setOwner(resultSet.getInt("owner"));
-                event.setEventName(resultSet.getString("eventName"));
-                event.setLocation(resultSet.getString("location"));
-                event.setDescription(resultSet.getString("description"));
-                event.setEventDate(resultSet.getString("eventDate"));
-                allEvents.add(event);
-            }
+            eventGetter(allEvents);
             resultSet.close();
             getAllEventsStatement.close();
         } catch (SQLException e) {
@@ -52,17 +42,7 @@ public class EventTable extends DBmanager {
             getMyEventsStatement.setInt(1, currentStudent.getIdStudent());
 
             resultSet = getMyEventsStatement.executeQuery();
-            while (resultSet.next()) {
-                Event event = new Event();
-                event.setIdEvent(resultSet.getInt("idEvent"));
-                event.setPrice(resultSet.getInt("price"));
-                event.setOwner(resultSet.getInt("owner"));
-                event.setEventName(resultSet.getString("eventName"));
-                event.setLocation(resultSet.getString("location"));
-                event.setDescription(resultSet.getString("description"));
-                event.setEventDate(resultSet.getString("eventDate"));
-                myEvents.add(event);
-            }
+            eventGetter(myEvents);
             resultSet.close();
             getMyEventsStatement.close();
         } catch (SQLException e) {
@@ -71,15 +51,30 @@ public class EventTable extends DBmanager {
         return myEvents;
     }
 
+    //Handles getting events and properly adding them to the resultSet for both getAllEvents and getMyEvents
+    private void eventGetter(ArrayList<Event> myEvents) throws SQLException {
+        while (resultSet.next()) {
+            Event event = new Event();
+            event.setIdEvent(resultSet.getInt("idEvent"));
+            event.setPrice(resultSet.getInt("price"));
+            event.setOwner(resultSet.getInt("owner"));
+            event.setEventName(resultSet.getString("eventName"));
+            event.setLocation(resultSet.getString("location"));
+            event.setDescription(resultSet.getString("description"));
+            event.setEventDate(resultSet.getString("eventDate"));
+            myEvents.add(event);
+        }
+    }
+
     /**
      * @param idEvent
      * @return Attending Students
      * @throws IllegalAccessException
      * @throws SQLException
      */
-    public ArrayList getAttendingStudents(String idEvent) throws IllegalAccessException, SQLException {
+    public ArrayList<Student> getAttendingStudents(String idEvent) {
         Student student;
-        ArrayList attendingStudents = new ArrayList();
+        ArrayList<Student> attendingStudents = new ArrayList<>();
 
         //henter alle studenter der deltager på det valgte event.
         try {
@@ -124,7 +119,7 @@ public class EventTable extends DBmanager {
      * @return True
      * @throws IllegalArgumentException
      */
-    public boolean joinEvent(int eventId, int studentId) throws IllegalArgumentException {
+    public void joinEvent(int eventId, int studentId) throws IllegalArgumentException {
 
         try {
             //kalder metoden der tjekker om studenten allerede har tilmeldt sig det pågældende event
@@ -136,13 +131,12 @@ public class EventTable extends DBmanager {
 
             int rowsAffected = joinEvent.executeUpdate();
             if (rowsAffected != 1) {
-                return false;
+                return;
             }
             joinEvent.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
     /**
@@ -151,7 +145,7 @@ public class EventTable extends DBmanager {
      * @return True
      * @throws IllegalArgumentException
      */
-    public boolean leaveEvent(int eventId, int studentId) throws IllegalArgumentException {
+    public void leaveEvent(int eventId, int studentId) throws IllegalArgumentException {
 
         try {
             //kalder metoden der tjekker om studenten allerede har tilmeldt sig det pågældende event
@@ -163,17 +157,16 @@ public class EventTable extends DBmanager {
 
             int rowsAffected = leaveEvent.executeUpdate();
             if (rowsAffected != 1) {
-                return false;
+                return;
             }
             leaveEvent.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
     // Anvendes til at ændre et event. Modtager et idEvent og data om eventet.
-    public boolean updateEvent(Event event, Student student) throws Exception {
+    public boolean updateEvent(Event event, Student student) {
 
         PreparedStatement updateEventStatement = null;
         int currentStudentId = student.getIdStudent();

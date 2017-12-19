@@ -24,16 +24,14 @@ public class StudentEndpoint {
     private Gson gson = new Gson();
 
     /**
-     *
      * @param token
      * @param idStudent
      * @return Responses
-     * @throws SQLException
      * @throws IllegalAccessException
      */
     @GET
     @Path("{idStudent}/events")
-    public Response getAttendingEvents(@HeaderParam("Authorization") String token, @PathParam("idStudent") int idStudent) throws SQLException, IllegalAccessException {
+    public Response getAttendingEvents(@HeaderParam("Authorization") String token, @PathParam("idStudent") int idStudent) throws IllegalAccessException {
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();
 
@@ -75,7 +73,6 @@ public class StudentEndpoint {
     }
 
     /**
-     *
      * @param token
      * @return Responses
      * @throws SQLException
@@ -94,6 +91,7 @@ public class StudentEndpoint {
                         .entity("You are now logged out")
                         .build();
             } else {
+                Log.writeLog(getClass().getName(), this, "User couldn't be logged out", 0);
                 return Response
                         .status(404)
                         .type("plain/text")
@@ -101,23 +99,24 @@ public class StudentEndpoint {
                         .build();
             }
         } else {
+            Log.writeLog(getClass().getName(), this, "User wasn't logged in, can't log out", 0);
+
             return Response
                     .status(403)
                     .type("plain/text")
-                    .entity("{You are not logged in - please log in before attempting to log out}")
+                    .entity("You are not logged in - please log in before attempting to log out")
                     .build();
         }
     }
 
     /**
-     *
      * @param token
      * @return Responses
      * @throws SQLException
      */
     @GET
     @Path("/profile")
-    public Response get(@HeaderParam("Authorization") String token) throws SQLException {
+    public Response get(@HeaderParam("Authorization") String token) {
 
         CurrentStudentContext student = tokenController.getStudentFromTokens(token);
         Student currentStudent = student.getCurrentStudent();

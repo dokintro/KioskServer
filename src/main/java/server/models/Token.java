@@ -8,24 +8,19 @@ public class Token {
     private Student student;
 
     /**
-     *
      * @param student
      */
-    public Token(Student student){
+    public Token(Student student) {
         setToken(Authenticator.hashWithSalt(student.getEmail(), student.getSalt()));
 
     }
 
-    public void setStudent (Student student) {
+    public void setStudent(Student student) {
         this.student = student;
     }
 
-    public void setToken(String token) {
+    private void setToken(String token) {
         this.token = token;
-    }
-
-    public String getToken(){
-        return token;
     }
 
 }
