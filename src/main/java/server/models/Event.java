@@ -7,7 +7,6 @@ public class Event {
     private String description;
 
     /**
-     *
      * @param idEvent
      * @param price
      * @param owner
@@ -76,10 +75,6 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getOwner() {
-        return owner;
     }
 
     public void setOwner(int owner) {

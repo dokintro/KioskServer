@@ -26,7 +26,6 @@ public class EventController {
     private EventTable eventTable = new EventTable();
 
     /**
-     *
      * @param idEvent
      * @return Attending Students
      * @throws IllegalAccessException
@@ -39,7 +38,6 @@ public class EventController {
     }
 
     /**
-     *
      * @param eventData
      * @param student
      * @return Create Event
@@ -52,7 +50,6 @@ public class EventController {
     }
 
     /**
-     *
      * @return All Events
      */
     public ArrayList<Event> getAllEvents() {
@@ -62,7 +59,6 @@ public class EventController {
     }
 
     /**
-     *
      * @return my Events
      */
     public ArrayList<Event> getMyEvents(Student student) {
@@ -72,7 +68,6 @@ public class EventController {
     }
 
     /**
-     *
      * @param event
      * @param student
      * @return Delete event
@@ -85,33 +80,28 @@ public class EventController {
     }
 
     /**
-     *
      * @param eventId
      * @param studentId
      * @return Join Event
      * @throws ResponseException
      */
-    public boolean joinEvent(int eventId, int studentId) throws ResponseException {
-        boolean joinEvent = eventTable.joinEvent(eventId, studentId);
+    public void joinEvent(int eventId, int studentId) throws ResponseException {
+        eventTable.joinEvent(eventId, studentId);
         eventTable.close();
-        return joinEvent;
     }
 
     /**
-     *
      * @param eventId
      * @param studentId
      * @return leave Event
      * @throws ResponseException
      */
-    public boolean leaveEvent(int eventId, int studentId) throws ResponseException {
-        boolean leaveEvent = eventTable.leaveEvent(eventId, studentId);
+    public void leaveEvent(int eventId, int studentId) throws ResponseException {
+        eventTable.leaveEvent(eventId, studentId);
         eventTable.close();
-        return leaveEvent;
     }
 
     /**
-     *
      * @param event
      * @param student
      * @return Update Event

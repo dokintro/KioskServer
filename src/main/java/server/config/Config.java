@@ -28,13 +28,12 @@ public final class Config {
         String str = "";
 
         //The file is being read one line at the time and is loaded into the Stringbuffer
-        while((str = reader.readLine()) != null){
+        while ((str = reader.readLine()) != null) {
             stringBuffer.append(str);
         }
         JsonParser parser = new JsonParser();
 
         json = (JsonObject) parser.parse(stringBuffer.toString());
-
 
 
         setDbUrl(json.get("dbUrl").toString().replace("\"", ""));
@@ -49,7 +48,7 @@ public final class Config {
         return dbUrl;
     }
 
-    public static void setDbUrl(String dbUrl) {
+    private static void setDbUrl(String dbUrl) {
         Config.dbUrl = dbUrl;
     }
 
@@ -57,7 +56,7 @@ public final class Config {
         return dbPort;
     }
 
-    public static void setDbPort(Integer dbPort) {
+    private static void setDbPort(Integer dbPort) {
         Config.dbPort = dbPort;
     }
 
@@ -65,7 +64,7 @@ public final class Config {
         return dbName;
     }
 
-    public static void setDbName(String dbName) {
+    private static void setDbName(String dbName) {
         Config.dbName = dbName;
     }
 
@@ -73,7 +72,7 @@ public final class Config {
         return dbUser;
     }
 
-    public static void setDbUser(String dbUser) {
+    private static void setDbUser(String dbUser) {
         Config.dbUser = dbUser;
     }
 
@@ -81,12 +80,16 @@ public final class Config {
         return dbPassword;
     }
 
-    public static void setDbPassword(String dbPassword) {
+    private static void setDbPassword(String dbPassword) {
         Config.dbPassword = dbPassword;
     }
 
-    public static boolean getEncryption () { return encryption;}
+    public static boolean getEncryption() {
+        return encryption;
+    }
 
-    public static void setEncryption (boolean encryption) {Config.encryption = encryption;}
+    private static void setEncryption(boolean encryption) {
+        Config.encryption = encryption;
+    }
 
 }

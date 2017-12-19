@@ -31,11 +31,10 @@ public class RegisterEndpoint {
      * @param token
      * @param jsonStudent
      * @return Responses
-     * @throws Exception
      */
     @POST
     @Produces("application/json")
-    public Response register(@HeaderParam("Authorization") String token, String jsonStudent) throws Exception {
+    public Response register(@HeaderParam("Authorization") String token, String jsonStudent) {
         jsonStudent = gson.fromJson(jsonStudent, String.class);
         jsonStudent = crypter.decrypt(jsonStudent);
 
@@ -65,8 +64,7 @@ public class RegisterEndpoint {
                 studentController.verifyStudentCreation(registerStudent.getFirstName(), registerStudent.getLastName(), registerStudent.getPassword(), registerStudent.getEmail(), registerStudent.getVerifyPassword());
             } catch (IllegalArgumentException ee) {
                 System.out.print(ee.getMessage());
-                //Bør måske ændres til at user ikke kunne verifies pga forkert info om fornavn, efternavn, kodeord eller email
-                Log.writeLog(getClass().getName(), this, "User couldn't be registered", 2);
+                Log.writeLog(getClass().getName(), this, "User couldn't be registered due to not meeting our requirements", 2);
                 return Response
                         .status(400)
                         .type("text/plain")

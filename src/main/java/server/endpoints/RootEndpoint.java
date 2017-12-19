@@ -13,11 +13,10 @@ import javax.ws.rs.core.Response;
 public class RootEndpoint {
 
     /**
-     *
      * @return Response
      */
     @GET
-    public Response defaultGetMethod(){
+    public Response defaultGetMethod() {
 
         String json = new Gson().toJson("Foo - test");
 

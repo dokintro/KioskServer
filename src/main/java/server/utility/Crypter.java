@@ -6,6 +6,7 @@ import server.config.Config;
 public class Crypter {
 
     // XOR-kypteringsmetoden: (CR)
+    // omskrevet version af nedenstående
     //https://github.com/KyleBanks/XOREncryption/blob/master/Java%20(Android%20compatible)/XOREncryption.java
 
     /**
@@ -22,9 +23,7 @@ public class Crypter {
                 output.append((char) (input.charAt(i) ^ key[i % key.length]));
             }
 
-            String encrypted = new Gson().toJson(output.toString());
-
-            return encrypted;
+            return new Gson().toJson(output.toString());
         } else {
             return input;
         }
@@ -39,9 +38,7 @@ public class Crypter {
                 output.append((char) (input.charAt(i) ^ key[i % key.length]));
             }
 
-            String decrypted = output.toString();
-
-            return decrypted;
+            return output.toString();
         } else {
             return input;
         }
