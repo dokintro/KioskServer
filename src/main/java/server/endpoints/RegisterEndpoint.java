@@ -48,7 +48,6 @@ public class RegisterEndpoint {
                     .build();
         } else {
             Student registerStudent;
-
             try {
                 registerStudent = gson.fromJson(jsonStudent, Student.class);
             } catch (IllegalArgumentException e) {
@@ -73,8 +72,6 @@ public class RegisterEndpoint {
             }
             try {
                 studentTable.addStudent(registerStudent);
-
-
                 String registerJson = gson.toJson(registerStudent);
 
                 Log.writeLog(getClass().getName(), this, registerStudent + " registered", 0);
