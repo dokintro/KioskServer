@@ -10,8 +10,11 @@
 | Use case 4: | Opdatere egne events: |   x    |     |
 | Use case 5: | Se liste med events: |   x    |     |
 | Use case 6: | Se deltagerliste på valgte events: |   x    |     |
-| Use case 7: | Slette egne events: |   x    |     |
-| Use case 8: | Log ud: |   x    |     |
+| Use case 7: | Se liste med egne events: |   x    |     |
+| Use case 8: | Slette egne events: |   x    |     |
+| Use case 9: | Tilmelde sig events: |   x    |     |
+| Use case 10: | Forlade events man er tilmeldt: |   x    |     |
+| Use case 11: | Log ud: |   x    |     |
 
 ## Use cases med beskrivelser
 
@@ -75,7 +78,16 @@
 	- **Supplerende oplysninger:**
 		-
 	
-- **Use case 7 - Slette egne events:**
+- **Use case 7 - Se liste med egne events:**
+	- **Forudsætninger:** Aktøren skal være logget ind
+	- **Kort beskrivelse:** En bruger skal have mulighed for at se en liste med sine egne events
+	- **Uddybende beskrivelse:**
+		1. Brugeren vælger “Mine events”.
+		2. Applikationen viser brugerens oprettede events. 
+	- **Supplerende oplysninger:**
+		- 
+		
+- **Use case 8 - Slette egne events:**
 	- **Forudsætninger:** Aktøren skal være logget ind
 	- **Kort beskrivelse:** En bruger skal have mulighed for at slette egne events. 
 	- **Uddybende beskrivelse:**
@@ -86,8 +98,30 @@
 		5. Brugeren føres tilbage til oversigten over events. 
 	- **Supplerende oplysninger:**
 		1. For at slette et event, skal det være oprettet forinden. 
+		
+- **Use case 9 - Tilmelde sig events:**
+	- **Forudsætninger:** Aktøren skal være logget ind
+	- **Kort beskrivelse:** En bruger skal have mulighed for at tilmelde sig events
+	- **Uddybende beskrivelse:**
+		1. Brugeren vælger “Alle events"
+		2. Applikationen viser de oprettede events. 
+		3. Brugeren trykker “attend event” på det pågældende event, som brugeren  ønsker at tilmelde sig
+		4. Brugeren tilmeldes eventet
+	- **Supplerende oplysninger:**
+		1. For at tilmelde sig et event, skal det være oprettet forinden. 
+		
+- **Use case 10 - Forlade events man er tilmeldt:**
+	- **Forudsætninger:** Aktøren skal være logget ind og være tilmeldt det pågældende event
+	- **Kort beskrivelse:** En bruger skal have mulighed for at slette egne events. 
+	- **Uddybende beskrivelse:**
+		1. Brugeren vælger "Tilmeldte events"
+		2. Applikationen viser de events brugeren er tilmeldt
+		3. Brugeren trykker “forlad event" 
+		4. Brugeren fjernes fra eventet
+	- **Supplerende oplysninger:**
+		1. For at forlade et event, skal man være tilmeldt det forinden
 
-- **Use Case 8 - Log ud:**
+- **Use Case 11 - Log ud:**
 	- **Beskrivelse:** Brugeren skal kunne logge ud af systemet igen.
 	- **Forudsætninger:** Man skal være logget ind. 
 	- **Uddybende beskrivelse:**
