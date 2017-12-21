@@ -45,7 +45,7 @@ public class StudentEndpoint {
             } else {
                 ArrayList foundAttendingEvents;
                 foundAttendingEvents = studentController.getAttendingEvents(idStudent);
-                // if event not found
+                // if the student isn't attending any events 
                 if (foundAttendingEvents.isEmpty()) {
                     Log.writeLog(getClass().getName(), this, "Student has no attending events", 2);
                     return Response
