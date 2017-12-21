@@ -1,5 +1,6 @@
 ## Kravspecifikation:
 
+Nedenstående er blot det relevante uddrag til dette projekt fra filen: https://learn.cbs.dk/pluginfile.php/818329/mod_resource/content/0/Distribuerede%20Systemer%202017%20-%20Eksamensopgave.pdf (CBS login påkrævet).
 ### Server:
 - S1: Server skal kunne validere login på et hashet password.
 - S2: Serveren skal udstille et API (Softwaregrænseflade), som gør det nemt at udarbejde klienter, der kan trække på serverens funktionalitet. API’et skal dække over følgende funktionaliteter:
