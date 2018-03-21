@@ -6,16 +6,15 @@ DROP TABLE IF EXISTS student_has_purchased;
 CREATE TABLE IF NOT EXISTS users (
   `idUser` int(255) NOT NULL AUTO_INCREMENT UNIQUE,
   `nameUser` varchar(100) NOT NULL,
-  `RFIDUSER` LONGTEXT NOT NULL,
+  `RFIDUSER` varchar(255) NOT NULL,
   `userIsAdmin` tinyint(1) NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE IF NOT EXISTS products (
   `idProduct` int(255) NOT NULL AUTO_INCREMENT UNIQUE,
   `nameProduct` varchar(100) NOT NULL,
-  `pictureProduct` blob(255) NOT NULL,
   `priceProduct` int(11) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '0'
+  `isActive` tinyint(1) NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE student_has_purchased (

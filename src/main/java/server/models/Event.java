@@ -15,6 +15,7 @@ public class Event {
      * @param description
      * @param eventDate
      */
+
     public Event(int idEvent, int price, int owner, String eventName, String location, String description, String eventDate) {
         this.idEvent = idEvent;
         this.price = price;
