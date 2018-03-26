@@ -3,6 +3,9 @@ package server.endpoints;
 import com.google.gson.Gson;
 import server.controllers.ProductController;
 import server.models.Product;
+import server.models.User;
+import server.providers.ProductTable;
+import server.providers.UserTable;
 import server.resources.Log;
 import server.utility.Crypter;
 
@@ -14,6 +17,8 @@ import java.sql.SQLException;
 public class ProductEndpoint {
 
     private ProductController productController = new ProductController();
+    private ProductTable productTable = new ProductTable();
+    private UserTable userTable = new UserTable();
     private Gson gson = new Gson();
 
     @GET
@@ -23,8 +28,32 @@ public class ProductEndpoint {
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(Crypter.encrypt(json))
+                .entity(json)
                 .build();
+    }
+
+    @POST
+    public Response buyProduct(@HeaderParam("Authorization") String userRFID, String productData) throws SQLException {
+        Product receivedProduct = gson.fromJson(productData, Product.class);
+        Product foundProduct = productTable.getProductByName(receivedProduct);
+        User foundUser = userTable.getUserByRFID(userRFID);
+        foundProduct.setAmountBought(receivedProduct.getAmountBought());
+        if (productController.buyProduct(foundProduct, userRFID, foundUser)) {
+            Log.writeLog(getClass().getName(), this, "A product has been bought", 0);
+            return Response
+                    .status(200)
+                    .type("plain/text")
+                    .entity("product bought")
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "Couldn't buy product", 2);
+
+            return Response
+                    .status(401)
+                    .type("plain/text")
+                    .entity("Couldn't buy product")
+                    .build();
+        }
     }
 
     @GET

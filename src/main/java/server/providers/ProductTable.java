@@ -1,7 +1,7 @@
 package server.providers;
 
-import server.models.Event;
 import server.models.Product;
+import server.models.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class ProductTable extends DBmanager {
 
     private ResultSet resultSet;
-
 
     public ArrayList<Product> getAllActiveProducts() {
         ArrayList<Product> allActiveProducts = new ArrayList<>();
@@ -101,4 +100,40 @@ public class ProductTable extends DBmanager {
         return true;
     }
 
+    public Product getProductByName(Product product) {
+        try {
+            PreparedStatement getProductByNameStatement = getConnection().prepareStatement("SELECT * FROM products WHERE nameProduct = ?");
+
+            getProductByNameStatement.setString(1, product.getNameProduct());
+            resultSet = getProductByNameStatement.executeQuery();
+
+            while (resultSet.next()) {
+                product = new Product();
+                product.setIdProduct(resultSet.getInt("idProduct"));
+                product.setNameProduct(resultSet.getString("nameProduct"));
+                product.setPriceProduct(resultSet.getInt("priceProduct"));
+                product.setIsActive(resultSet.getInt("isActive"));
+            }
+            resultSet.close();
+            getProductByNameStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public boolean buyProduct(Product product, String userRFID, User user) throws SQLException {
+        PreparedStatement buyProductStatement = getConnection().prepareStatement("INSERT INTO student_has_purchased (users_idUser,users_RFIDUser, products_idProduct, amountBought) VALUES (?, ?, ?, ?)");
+        buyProductStatement.setInt(1, user.getIdUser());
+        buyProductStatement.setString(2, userRFID);
+        buyProductStatement.setInt(3, product.getIdProduct());
+        buyProductStatement.setInt(4, product.getAmountBought());
+
+        int rowsAffected = buyProductStatement.executeUpdate();
+        if (rowsAffected != 1) {
+            return false;
+        }
+        buyProductStatement.close();
+        return true;
+    }
 }

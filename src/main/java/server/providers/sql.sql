@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS products; 
-DROP TABLE IF EXISTS student_has_purchased; 
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS student_has_purchased;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE student_has_purchased (
   `users_idUser` int(255) NOT NULL,
+  `users_RFIDUser` VARCHAR(255) NOT NULL,
   `products_idProduct` int(255) NOT NULL,
   `amountBought` int(255) NOT NULL
 );

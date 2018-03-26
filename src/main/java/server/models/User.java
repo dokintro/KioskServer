@@ -1,15 +1,19 @@
 package server.models;
 
-public class Fraggel {
+public class User {
 
     private String nameUser, RFIDUser;
     private int idUser, userIsAdmin;
 
-    public Fraggel(int idUser, String nameUser, String RFIDUser, int userIsAdmin) {
+    public User(int idUser, String nameUser, String RFIDUser, int userIsAdmin) {
         this.idUser = idUser;
         this.nameUser = nameUser;
         this.RFIDUser = RFIDUser;
         this.userIsAdmin = userIsAdmin;
+    }
+
+    public User() {
+
     }
 
     public String getNameUser() {

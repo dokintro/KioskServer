@@ -2,18 +2,33 @@ package server.models;
 
 public class Product {
 
-    private int idProduct, priceProduct, isActive;
+    private int idProduct, priceProduct, isActive, amountBought;
     private String nameProduct;
 
-    public Product(int idProduct, String nameProduct, int priceProduct, int isActive) {
+    public Product(int idProduct, String nameProduct, int priceProduct, int isActive, int amountBought) {
         this.idProduct = idProduct;
         this.nameProduct = nameProduct;
         this.priceProduct = priceProduct;
         this.isActive = isActive;
+        this.amountBought = amountBought;
     }
+
 
     public Product() {
 
+    }
+
+    public Product(String nameProduct, int amountBought) {
+        this.nameProduct = nameProduct;
+        this.amountBought = amountBought;
+    }
+
+    public int getAmountBought() {
+        return amountBought;
+    }
+
+    public void setAmountBought(int amountBought) {
+        this.amountBought = amountBought;
     }
 
     public int getIdProduct() {
