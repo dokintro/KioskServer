@@ -22,6 +22,11 @@ public class ProductController {
         productTable.close();
         return getAllProducts;
     }
+    public ArrayList getEverythingBought() {
+        ArrayList getEverythingBought = productTable.getEverythingBought();
+        productTable.close();
+        return getEverythingBought;
+    }
 
     public boolean updateProduct(Product product) throws SQLException {
         boolean updateProduct = productTable.updateProduct(product);

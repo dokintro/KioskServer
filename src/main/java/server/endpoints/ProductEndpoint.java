@@ -64,7 +64,19 @@ public class ProductEndpoint {
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(Crypter.encrypt(json))
+                .entity(json)
+                .build();
+    }
+
+    @GET
+    @Path("/admin/everythingBought")
+    public Response getEverythingBought() {
+        String json = gson.toJson(productController.getEverythingBought());
+        Log.writeLog(getClass().getName(), this, "Everything bought fetched", 0);
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(json)
                 .build();
     }
 

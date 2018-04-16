@@ -21,7 +21,6 @@ public class UserTable extends DBmanager {
 
             getStudentsByRFIDStatement.setString(1, RFID);
             resultSet = getStudentsByRFIDStatement.executeQuery();
-
             while (resultSet.next()) {
                 user = new User();
                 user.setIdUser(resultSet.getInt("idUser"));
@@ -32,7 +31,6 @@ public class UserTable extends DBmanager {
             if (user == null) {
                 throw new IllegalArgumentException();
             }
-
             resultSet.close();
             getStudentsByRFIDStatement.close();
         } catch (SQLException e) {
@@ -41,16 +39,28 @@ public class UserTable extends DBmanager {
         return user;
     }
 
-    public ArrayList<User> getAllProducts() {
-        ArrayList<User> allProducts = new ArrayList<>();
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> allUsers = new ArrayList<>();
         try {
             PreparedStatement getAllUsersStatement = getConnection().prepareStatement("SELECT * FROM users");
             resultSet = getAllUsersStatement.executeQuery();
+            userGetter(allUsers);
             resultSet.close();
             getAllUsersStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return allProducts;
+        return allUsers;
+    }
+
+    private void userGetter(ArrayList<User> myUsers) throws SQLException {
+        while (resultSet.next()) {
+            User user = new User();
+            user.setIdUser(resultSet.getInt("idUser"));
+            user.setNameUser(resultSet.getString("nameUser"));
+            user.setRFIDUser(resultSet.getString("RFIDUser"));
+            user.setUserIsAdmin(resultSet.getInt("userIsAdmin"));
+            myUsers.add(user);
+        }
     }
 }

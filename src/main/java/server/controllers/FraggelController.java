@@ -8,8 +8,8 @@ public class FraggelController {
     private UserTable userTable = new UserTable();
 
     public ArrayList getAllUsers() {
-        ArrayList getAllProducts = userTable.getAllUsers();
+        ArrayList getAllUsers = userTable.getAllUsers();
         userTable.close();
-        return getAllProducts;
+        return getAllUsers;
     }
 }

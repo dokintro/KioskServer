@@ -41,6 +41,27 @@ public class ProductTable extends DBmanager {
         return allProducts;
     }
 
+    public ArrayList<User> getEverythingBought() {
+        ArrayList<User> everythingBought = new ArrayList<User>();
+        try {
+            PreparedStatement getEverythingBoughtStatement = getConnection().prepareStatement("SELECT * FROM student_has_purchased");
+            resultSet = getEverythingBoughtStatement.executeQuery();
+            while (resultSet.next()) {
+                User userBoughtItem = new User();
+                userBoughtItem.setIdUser(resultSet.getInt("users_idUser"));
+                userBoughtItem.setRFIDUser(resultSet.getString("users_RFIDUser"));
+                userBoughtItem.setIdProduct(resultSet.getInt("products_idProduct"));
+                userBoughtItem.setAmountBought(resultSet.getInt("amountBought"));
+                everythingBought.add(userBoughtItem);
+            }
+            resultSet.close();
+            getEverythingBoughtStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return everythingBought;
+    }
+
     //Handles getting products and properly adding them to the resultSet for both getAllProducts and getAllActiveProducts
     private void productGetter(ArrayList<Product> myProducts) throws SQLException {
         while (resultSet.next()) {
