@@ -37,4 +37,24 @@ public class LoginEndpoint {
                 .entity(returnUser)
                 .build();
     }
+
+    @GET
+    public Response getUserName(@HeaderParam("Authorization") String RFID) {
+        User foundUser;
+        try {
+            foundUser = userTable.getUserByRFID(RFID);
+        } catch (Exception notFound) {
+            return Response
+                    .status(403)
+                    .type("plain/text")
+                    .entity("User wasn't found")
+                    .build();
+        }
+        String json = gson.toJson(foundUser);
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(json)
+                .build();
+    }
 }

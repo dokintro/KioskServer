@@ -57,7 +57,7 @@ public class ProductEndpoint {
     }
 
     @GET
-    @Path("/admin")
+    @Path("/admin/allProducts")
     public Response getAllProducts() {
         String json = gson.toJson(productController.getAllProducts());
         Log.writeLog(getClass().getName(), this, "All products fetched", 0);
