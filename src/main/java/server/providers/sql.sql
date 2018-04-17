@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE student_has_purchased (
   `users_idUser` int(255) NOT NULL,
   `users_RFIDUser` VARCHAR(255) NOT NULL,
-  `products_idProduct` int(255) NOT NULL,
+  `products_nameProduct` varchar(100) NOT NULL,
   `amountBought` int(255) NOT NULL
 );
 
 ALTER TABLE `student_has_purchased` ADD CONSTRAINT `student_has_purchased_fk0` FOREIGN KEY (`users_idUser`) REFERENCES `Users`(`idUser`);
 
-ALTER TABLE `student_has_purchased` ADD CONSTRAINT `student_has_purchased_fk1` FOREIGN KEY (`products_idProduct`) REFERENCES `Products`(`idProduct`);
+ALTER TABLE `student_has_purchased` ADD CONSTRAINT `student_has_purchased_fk1` FOREIGN KEY (`products_nameProduct`) REFERENCES `Products`(`nameProduct`);

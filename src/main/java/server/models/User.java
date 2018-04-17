@@ -2,8 +2,8 @@ package server.models;
 
 public class User {
 
-    private String nameUser, RFIDUser;
-    private int idUser, userIsAdmin, idProduct, amountBought;
+    private String nameUser, RFIDUser, nameProduct;
+    private int idUser, userIsAdmin, amountBought;
 
     public User(int idUser, String nameUser, String RFIDUser, int userIsAdmin) {
         this.idUser = idUser;
@@ -12,18 +12,10 @@ public class User {
         this.userIsAdmin = userIsAdmin;
     }
 
-    public User(int idUser, String RFIDUser, int idProduct, int amountBought) {
+    public User(int idUser, String RFIDUser, int amountBought, String nameProduct) {
         this.idUser = idUser;
         this.RFIDUser = RFIDUser;
-        this.idProduct = idProduct;
-        this.amountBought = amountBought;
-    }
-
-    public int getAmountBought() {
-        return amountBought;
-    }
-
-    public void setAmountBought(int amountBought) {
+        this.nameProduct = nameProduct;
         this.amountBought = amountBought;
     }
 
@@ -32,12 +24,20 @@ public class User {
 
     }
 
-    public int getIdProduct() {
-        return idProduct;
+    public String getNameProduct() {
+        return nameProduct;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public int getAmountBought() {
+        return amountBought;
+    }
+
+    public void setAmountBought(int amountBought) {
+        this.amountBought = amountBought;
     }
 
     public String getNameUser() {

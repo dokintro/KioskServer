@@ -50,7 +50,7 @@ public class ProductTable extends DBmanager {
                 User userBoughtItem = new User();
                 userBoughtItem.setIdUser(resultSet.getInt("users_idUser"));
                 userBoughtItem.setRFIDUser(resultSet.getString("users_RFIDUser"));
-                userBoughtItem.setIdProduct(resultSet.getInt("products_idProduct"));
+                userBoughtItem.setNameProduct(resultSet.getString("products_nameProduct"));
                 userBoughtItem.setAmountBought(resultSet.getInt("amountBought"));
                 everythingBought.add(userBoughtItem);
             }
@@ -144,10 +144,10 @@ public class ProductTable extends DBmanager {
     }
 
     public boolean buyProduct(Product product, String userRFID, User user) throws SQLException {
-        PreparedStatement buyProductStatement = getConnection().prepareStatement("INSERT INTO student_has_purchased (users_idUser,users_RFIDUser, products_idProduct, amountBought) VALUES (?, ?, ?, ?)");
+        PreparedStatement buyProductStatement = getConnection().prepareStatement("INSERT INTO student_has_purchased (users_idUser,users_RFIDUser, products_nameProduct, amountBought) VALUES (?, ?, ?, ?)");
         buyProductStatement.setInt(1, user.getIdUser());
         buyProductStatement.setString(2, userRFID);
-        buyProductStatement.setInt(3, product.getIdProduct());
+        buyProductStatement.setString(3, product.getNameProduct());
         buyProductStatement.setInt(4, product.getAmountBought());
 
         int rowsAffected = buyProductStatement.executeUpdate();
