@@ -31,5 +31,75 @@ public class FraggelEndpoint {
                 .entity(json)
                 .build();
     }
+
+    @POST
+    @Path("/admin/addUser")
+    public Response addUser(String userData) throws SQLException {
+        User user = gson.fromJson(userData, User.class);
+        if (fraggelController.createUser(user)) {
+            Log.writeLog(getClass().getName(), this, "User created", 0);
+            String json = gson.toJson(user);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(Crypter.encrypt(json))
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "Not able to create User", 2);
+            return Response
+                    .status(403)
+                    .type("plain/text")
+                    .entity("Failed! User couldn't be created")
+                    .build();
+        }
+    }
+
+    @PUT
+    @Path("/admin/{idUser}/update-user")
+    public Response updateUser(@PathParam("idUser") int idUser, String data) throws SQLException {
+        User user = gson.fromJson(data, User.class);
+        user.setIdUser(idUser);
+
+        if (fraggelController.updateUser(user)) {
+            String json = gson.toJson(user);
+            Log.writeLog(getClass().getName(), this, "User was updated", 0);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(Crypter.encrypt(json))
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "User not found", 2);
+            return Response
+                    .status(404)
+                    .type("plain/text")
+                    .entity("The user wasn't found")
+                    .build();
+        }
+    }
+
+    @DELETE
+    @Path("/admin/{idUser}/delete-user")
+    public Response deleteProduct(@PathParam("idUser") int idUser, String data) throws Exception {
+        User user = gson.fromJson(data, User.class);
+        user.setIdUser(Integer.parseInt(String.valueOf(idUser)));
+
+        if (fraggelController.deleteUser(user)) {
+            String json = gson.toJson(user);
+            Log.writeLog(getClass().getName(), this, "User deleted", 0);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(Crypter.encrypt(json))
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "Yser not deleted", 2);
+            return Response
+                    .status(400)
+                    .type("plain/text")
+                    .entity("Couldn't delete the user")
+                    .build();
+        }
+    }
 }
 

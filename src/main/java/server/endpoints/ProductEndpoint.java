@@ -83,15 +83,12 @@ public class ProductEndpoint {
     @PUT
     @Path("/admin/{idProduct}/update-product")
     public Response updateProduct(@PathParam("idProduct") int idProduct, String data) throws SQLException {
-        data = gson.fromJson(data, String.class);
-
         Product product = gson.fromJson(data, Product.class);
         product.setIdProduct(idProduct);
 
         if (productController.updateProduct(product)) {
             String json = gson.toJson(product);
             Log.writeLog(getClass().getName(), this, "Product was updated", 0);
-
             return Response
                     .status(200)
                     .type("application/json")
@@ -108,10 +105,8 @@ public class ProductEndpoint {
     }
 
     @POST
-    @Path("/admin/create")
+    @Path("/admin/createProduct")
     public Response createProduct(String productData) throws SQLException {
-        productData = gson.fromJson(productData, String.class);
-
         Product product = gson.fromJson(productData, Product.class);
         if (productController.createProduct(product)) {
             Log.writeLog(getClass().getName(), this, "Product created", 0);
@@ -131,18 +126,14 @@ public class ProductEndpoint {
         }
     }
 
-    @PUT
+    @DELETE
     @Path("/admin/{idProduct}/delete-product")
     public Response deleteProduct(@PathParam("idProduct") int idProduct, String data) throws Exception {
-
-        data = gson.fromJson(data, String.class);
-
         Product product = gson.fromJson(data, Product.class);
         product.setIdProduct(Integer.parseInt(String.valueOf(idProduct)));
 
         if (productController.deleteProduct(product)) {
             String json = gson.toJson(product);
-
             Log.writeLog(getClass().getName(), this, "Product deleted", 0);
             return Response
                     .status(200)
@@ -155,6 +146,50 @@ public class ProductEndpoint {
                     .status(400)
                     .type("plain/text")
                     .entity("Couldn't delete the product")
+                    .build();
+        }
+    }
+
+    @PUT
+    @Path("/admin/{idProduct}/refill")
+    public Response refillProduct(@PathParam("idProduct") int idProduct, String data) throws Exception {
+        Product product = gson.fromJson(data, Product.class);
+        product.setIdProduct(Integer.parseInt(String.valueOf(idProduct)));
+        if (productController.refillProduct(product)) {
+            String json = gson.toJson(product);
+            Log.writeLog(getClass().getName(), this, "Product refilled", 0);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(Crypter.encrypt(json))
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "Product not refilled", 2);
+            return Response
+                    .status(400)
+                    .type("plain/text")
+                    .entity("Couldn't refill the product")
+                    .build();
+        }
+    }
+
+    @DELETE
+    @Path("/admin/delete-arrangement-data")
+    public Response deleteArrangementData(String data) throws Exception {
+        if (productController.deleteArrangementData()) {
+            Log.writeLog(getClass().getName(), this, "Purchase history and user data deleted", 0);
+
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity("{'String':'Purchase history and user data deleted'}")
+                    .build();
+        } else {
+            Log.writeLog(getClass().getName(), this, "Purchase history and user data not deleted", 2);
+            return Response
+                    .status(400)
+                    .type("plain/text")
+                    .entity("Couldn't delete prchase history and user data")
                     .build();
         }
     }

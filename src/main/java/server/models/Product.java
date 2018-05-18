@@ -2,15 +2,15 @@ package server.models;
 
 public class Product {
 
-    private int idProduct, priceProduct, isActive, amountBought;
+    private int idProduct, priceProduct, isActive, amountBought, stockProduct;
     private String nameProduct;
 
-    public Product(int idProduct, String nameProduct, int priceProduct, int isActive, int amountBought) {
+    public Product(int idProduct, String nameProduct, int priceProduct, int isActive, int stockProduct) {
         this.idProduct = idProduct;
         this.nameProduct = nameProduct;
         this.priceProduct = priceProduct;
         this.isActive = isActive;
-        this.amountBought = amountBought;
+        this.stockProduct = stockProduct;
     }
 
 
@@ -21,6 +21,14 @@ public class Product {
     public Product(String nameProduct, int amountBought) {
         this.nameProduct = nameProduct;
         this.amountBought = amountBought;
+    }
+
+    public int getStockProduct() {
+        return stockProduct;
+    }
+
+    public void setStockProduct(int stockProduct) {
+        this.stockProduct = stockProduct;
     }
 
     public int getAmountBought() {

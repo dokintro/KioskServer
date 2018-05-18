@@ -69,6 +69,7 @@ public class ProductTable extends DBmanager {
             product.setIdProduct(resultSet.getInt("idProduct"));
             product.setNameProduct(resultSet.getString("nameProduct"));
             product.setPriceProduct(resultSet.getInt("priceProduct"));
+            product.setStockProduct(resultSet.getInt("stockProduct"));
             product.setIsActive(resultSet.getInt("isActive"));
             myProducts.add(product);
         }
@@ -77,12 +78,13 @@ public class ProductTable extends DBmanager {
     public boolean updateProduct(Product product) throws SQLException {
         PreparedStatement updateProductStatement = null;
 
-        updateProductStatement = getConnection().prepareStatement("UPDATE products SET nameProduct = ?, priceProduct = ?, isActive = ? WHERE idProduct = ?");
+        updateProductStatement = getConnection().prepareStatement("UPDATE products SET nameProduct = ?, priceProduct = ?, isActive = ?, stockProduct = ? WHERE idProduct = ?");
 
         updateProductStatement.setString(1, product.getNameProduct());
         updateProductStatement.setInt(2, product.getPriceProduct());
         updateProductStatement.setInt(3, product.getIsActive());
-        updateProductStatement.setInt(4, product.getIdProduct());
+        updateProductStatement.setInt(4, product.getStockProduct());
+        updateProductStatement.setInt(5, product.getIdProduct());
 
         int rowsAffected = updateProductStatement.executeUpdate();
         if (rowsAffected != 1) {
@@ -94,7 +96,7 @@ public class ProductTable extends DBmanager {
 
     public boolean deleteProduct(Product product) throws SQLException {
 
-        PreparedStatement deleteProductStatement = getConnection().prepareStatement("UPDATE products SET isActive = 0 WHERE idProduct = ?");
+        PreparedStatement deleteProductStatement = getConnection().prepareStatement("DELETE FROM products WHERE idProduct = ?");
         deleteProductStatement.setInt(1, product.getIdProduct());
 
         int rowsUpdated = deleteProductStatement.executeUpdate();
@@ -105,12 +107,27 @@ public class ProductTable extends DBmanager {
         return true;
     }
 
+    public boolean refillProduct(Product product) throws SQLException {
+
+        PreparedStatement refillProductStatement = getConnection().prepareStatement("UPDATE products SET stockProduct = stockProduct + ? WHERE idProduct = ?");
+        refillProductStatement.setInt(1, product.getStockProduct());
+        refillProductStatement.setInt(2, product.getIdProduct());
+
+        int rowsUpdated = refillProductStatement.executeUpdate();
+        if (rowsUpdated != 1) {
+            throw new SQLException("More or less than 1 row was affected");
+        }
+        refillProductStatement.close();
+        return true;
+    }
+
     public boolean createProduct(Product product) throws SQLException {
-        PreparedStatement createProductStatement = getConnection().prepareStatement("INSERT INTO products (nameProduct, priceProduct, isActive) VALUES (?,?,?)");
+        PreparedStatement createProductStatement = getConnection().prepareStatement("INSERT INTO products (nameProduct, priceProduct, stockProduct, isActive) VALUES (?,?,?,?)");
 
         createProductStatement.setString(1, product.getNameProduct());
         createProductStatement.setInt(2, product.getPriceProduct());
-        createProductStatement.setInt(3, product.getIsActive());
+        createProductStatement.setInt(3, product.getStockProduct());
+        createProductStatement.setInt(4, product.getIsActive());
 
         int rowsAffected = createProductStatement.executeUpdate();
 
@@ -155,6 +172,24 @@ public class ProductTable extends DBmanager {
             return false;
         }
         buyProductStatement.close();
+        PreparedStatement updateProductStockStatement = getConnection().prepareStatement("UPDATE products SET stockProduct = stockProduct - ? WHERE nameProduct = ?");
+        updateProductStockStatement.setInt(1, product.getAmountBought());
+        updateProductStockStatement.setString(2, product.getNameProduct());
+        rowsAffected = updateProductStockStatement.executeUpdate();
+        if (rowsAffected != 1) {
+            return false;
+        }
+        updateProductStockStatement.close();
+        return true;
+    }
+
+    public boolean deleteArrangementData() throws SQLException {
+        PreparedStatement deleteFromStudentHasPurchasedStatement = getConnection().prepareStatement("DELETE FROM student_has_purchased");
+        deleteFromStudentHasPurchasedStatement.executeUpdate();
+        deleteFromStudentHasPurchasedStatement.close();
+        PreparedStatement deleteNonAdminsStatement = getConnection().prepareStatement("DELETE FROM users WHERE userIsAdmin = 0");
+        deleteNonAdminsStatement.executeUpdate();
+        deleteNonAdminsStatement.close();
         return true;
     }
 }

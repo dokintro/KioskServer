@@ -39,6 +39,11 @@ public class ProductController {
         productTable.close();
         return deleteProduct;
     }
+    public boolean refillProduct(Product product) throws Exception {
+        boolean refillProduct = productTable.refillProduct(product);
+        productTable.close();
+        return refillProduct;
+    }
 
     public boolean createProduct(Product product) throws SQLException {
         boolean createProduct = productTable.createProduct(product);
@@ -50,5 +55,10 @@ public class ProductController {
         boolean buyProduct = productTable.buyProduct(product, userRFID, user);
         productTable.close();
         return buyProduct;
+    }
+    public boolean deleteArrangementData() throws Exception {
+        boolean deleteProduct = productTable.deleteArrangementData();
+        productTable.close();
+        return deleteProduct;
     }
 }

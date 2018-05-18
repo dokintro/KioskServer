@@ -2,14 +2,15 @@ package server.models;
 
 public class User {
 
-    private String nameUser, RFIDUser, nameProduct;
+    private String nameUser, RFIDUser, nameProduct, userSex;
     private int idUser, userIsAdmin, amountBought;
 
-    public User(int idUser, String nameUser, String RFIDUser, int userIsAdmin) {
+    public User(int idUser, String nameUser, String RFIDUser, int userIsAdmin, String userSex) {
         this.idUser = idUser;
         this.nameUser = nameUser;
         this.RFIDUser = RFIDUser;
         this.userIsAdmin = userIsAdmin;
+        this.userSex = userSex;
     }
 
     public User(int idUser, String RFIDUser, int amountBought, String nameProduct) {
@@ -20,8 +21,6 @@ public class User {
     }
 
     public User() {
-
-
     }
 
     public String getNameProduct() {
@@ -70,5 +69,13 @@ public class User {
 
     public void setUserIsAdmin(int userIsAdmin) {
         this.userIsAdmin = userIsAdmin;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
     }
 }
